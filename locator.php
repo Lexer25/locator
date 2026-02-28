@@ -1,9 +1,61 @@
 <?php
 //14.01.2026 Панель управления сайтами
 // locator.php - разместите в /xampp/htdocs/locator/locator.php
-// Версия для PHP 5.6
+// Версия для PHP 5.6 с счетчиком запусков
+// Version: 1.2.0
+
 date_default_timezone_set('Europe/Moscow');
+$version='1.2.0';
 session_start();
+
+// Файл для хранения статистики
+define('STATS_FILE', __DIR__ . '/stats.json');
+
+// Функция для загрузки статистики
+function loadStats() {
+    if (!file_exists(STATS_FILE)) {
+        $defaultStats = array(
+            'total_runs' => 0,
+            'sites' => array()
+        );
+        file_put_contents(STATS_FILE, json_encode($defaultStats));
+        return $defaultStats;
+    }
+    $content = file_get_contents(STATS_FILE);
+    $stats = json_decode($content, true);
+    if (!is_array($stats)) {
+        $stats = array('total_runs' => 0, 'sites' => array());
+    }
+    return $stats;
+}
+
+// Функция для сохранения статистики
+function saveStats($stats) {
+    return file_put_contents(STATS_FILE, json_encode($stats, JSON_PRETTY_PRINT));
+}
+
+// Функция для увеличения счетчика запуска сайта
+function incrementSiteRun($siteKey) {
+    $stats = loadStats();
+    
+    // Увеличиваем общий счетчик
+    $stats['total_runs'] = isset($stats['total_runs']) ? $stats['total_runs'] + 1 : 1;
+    
+    // Увеличиваем счетчик конкретного сайта
+    if (!isset($stats['sites'][$siteKey])) {
+        $stats['sites'][$siteKey] = 0;
+    }
+    $stats['sites'][$siteKey]++;
+    
+    // Добавляем временную метку последнего запуска
+    $stats['last_run'] = array(
+        'site' => $siteKey,
+        'time' => date('Y-m-d H:i:s')
+    );
+    
+    saveStats($stats);
+    return $stats['sites'][$siteKey];
+}
 
 // Функция для проверки доступности сайта
 function isSiteActive($url) {
@@ -66,6 +118,19 @@ if ($fileExists) {
         }
     } catch (Exception $e) {
         $validationErrors[] = "Ошибка при загрузке файла: " . $e->getMessage();
+    }
+}
+
+// Загружаем статистику
+$stats = loadStats();
+
+// Обработка запуска сайта через GET параметр
+if (isset($_GET['run_site']) && isset($_GET['key'])) {
+    $siteKey = $_GET['key'];
+    if (isset($siteUrls[$siteKey])) {
+        incrementSiteRun($siteKey);
+        header('Location: ' . $siteUrls[$siteKey]['url']);
+        exit;
     }
 }
 
@@ -536,6 +601,11 @@ if ($editKey && isset($siteUrls[$editKey])) {
             padding: 20px;
             margin-bottom: 20px;
         }
+        .run-counter {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -561,47 +631,60 @@ if ($editKey && isset($siteUrls[$editKey])) {
             <li class="nav-item" role="presentation">
                 <button class="nav-link <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'active' : ''; ?>" 
                         id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
-                    <i class="fas fa-tachometer-alt me-2"></i>Главная
+                    <i class="fas fa-home me-2"></i>Главная
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'active' : ''; ?>" 
+                        id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
+                    <i class="fas fa-chart-bar me-2"></i>Статистика
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'edit') ? 'active' : ''; ?>" 
                         id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
-                    <i class="fas fa-edit me-2"></i>Управление сайтами
+                    <i class="fas fa-edit me-2"></i>Управление
                 </button>
             </li>
         </ul>
         
         <!-- Tab Content -->
         <div class="tab-content">
-            <!-- Dashboard Tab -->
+            <!-- Главная Tab -->
             <div class="tab-pane fade <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'show active' : ''; ?>" 
                  id="dashboard" role="tabpanel">
-                <!-- Header -->
-                <div class="header-card d-flex flex-wrap align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-3">
-                        <i class="fas fa-globe text-white fs-1"></i>
-                        <div>
-                            <h1 class="text-white h3 mb-0">Панель управления сайтами</h1>
-                            <small class="text-white-50">Все проекты в одном месте</small>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex gap-2 flex-wrap">
-                        <span class="stat-badge" style="background: #3498db;">
-                            <i class="fas fa-globe me-1"></i> Всего: <?php echo count($sites); ?>
-                        </span>
-                        <span class="stat-badge" style="background: #27ae60;">
-                            <i class="fas fa-check-circle me-1"></i> Активных: <?php echo $activeCount; ?>
-                        </span>
-                        <span class="stat-badge" style="background: #e67e22;">
-                            <i class="fas fa-exclamation-circle me-1"></i> Неактивных: <?php echo $inactiveCount; ?>
-                        </span>
-                        <button class="btn btn-light" onclick="refreshStatus()">
-                            <i class="fas fa-sync-alt me-1"></i> Обновить
-                        </button>
-                    </div>
-                </div>
+
+               <!-- Header -->
+					<div class="header-card d-flex flex-wrap align-items-center justify-content-between">
+						<div class="d-flex align-items-center gap-3">
+							<i class="fas fa-globe text-white fs-1"></i>
+							<div>
+								<div class="d-flex align-items-center gap-2">
+									<h1 class="text-white h3 mb-0">Панель управления сайтами</h1>
+									<span class="badge bg-warning text-dark px-3 py-2">v <?php echo $version;?></span>
+								</div>
+								<small class="text-white-50">Все проекты в одном месте</small>
+							</div>
+						</div>
+						
+						<div class="d-flex gap-2 flex-wrap">
+							<span class="stat-badge" style="background: #3498db;">
+								<i class="fas fa-globe me-1"></i> Всего: <?php echo count($sites); ?>
+							</span>
+							<span class="stat-badge" style="background: #27ae60;">
+								<i class="fas fa-check-circle me-1"></i> Активных: <?php echo $activeCount; ?>
+							</span>
+							<span class="stat-badge" style="background: #e67e22;">
+								<i class="fas fa-exclamation-circle me-1"></i> Неактивных: <?php echo $inactiveCount; ?>
+							</span>
+							<span class="stat-badge" style="background: #9b59b6;">
+								<i class="fas fa-chart-bar me-1"></i> Запусков: <?php echo isset($stats['total_runs']) ? $stats['total_runs'] : 0; ?>
+							</span>
+							<button class="btn btn-light" onclick="refreshStatus()">
+								<i class="fas fa-sync-alt me-1"></i> Обновить
+							</button>
+						</div>
+					</div>
                 
                 <!-- Sites Grid -->
                 <div class="row g-3">
@@ -629,14 +712,23 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                     <?php echo htmlspecialchars($site['url']); ?>
                                 </div>
                                 
-                                <!-- Status and button -->
+                                <!-- Status and button with counter -->
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <span class="badge <?php echo $site['active'] ? 'bg-success' : 'bg-danger'; ?> py-2 px-3">
-                                        <?php echo $site['active'] ? 'Активен' : 'Неактивен'; ?>
-                                    </span>
-                                    <a href="<?php echo $site['url']; ?>" target="_blank" class="btn btn-sm btn-success px-3">
-                                        <i class="fas fa-play me-1"></i> Запустить
-                                    </a>
+                                    <div>
+                                        <span class="badge <?php echo $site['active'] ? 'bg-success' : 'bg-danger'; ?> py-2 px-3">
+                                            <?php echo $site['active'] ? 'Активен' : 'Неактивен'; ?>
+                                        </span>
+                                        <?php if (isset($stats['sites'][$site['name']])): ?>
+                                            <small class="d-block text-muted mt-1 run-counter">
+                                                <i class="fas fa-play-circle me-1"></i> Запусков: <?php echo $stats['sites'][$site['name']]; ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </div>
+                                    <a href="?run_site=1&key=<?php echo urlencode($site['name']); ?>" 
+									   class="btn btn-sm btn-success px-3" 
+									   target="_blank">
+										<i class="fas fa-play me-1"></i> Запустить
+									</a>
                                 </div>
                             </div>
                         </div>
@@ -645,10 +737,126 @@ if ($editKey && isset($siteUrls[$editKey])) {
                 </div>
                 
                 <!-- Footer -->
-				<div class="text-center mt-4 text-white-50 small">
-					<i class="fas fa-clock me-1"></i> Последнее обновление: <?php echo date('Y-m-d H:i:s'); ?> 
-					| <i class="fas fa-code-branch me-1"></i> версия 1.2.0
-				</div>
+                <!-- Footer -->
+<div class="text-center mt-4 text-white-50 small">
+    <i class="fas fa-clock me-1"></i> <?php echo date('Y-m-d H:i:s'); ?> 
+    
+    | <a href="http://www.artonit.ru" target="_blank" class="text-white-50">www.artonit.ru</a>
+</div>
+            </div>
+            
+            <!-- Stats Tab -->
+            <div class="tab-pane fade <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'show active' : ''; ?>" 
+                 id="stats" role="tabpanel">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-card">
+                            <h4 class="mb-3"><i class="fas fa-chart-line me-2"></i>Общая статистика</h4>
+                            <table class="table">
+                                <tr>
+                                    <td>Всего запусков:</td>
+                                    <td><strong><?php echo isset($stats['total_runs']) ? $stats['total_runs'] : 0; ?></strong></td>
+                                </tr>
+                                <?php if (isset($stats['last_run'])): ?>
+                                <tr>
+                                    <td>Последний запуск:</td>
+                                    <td>
+                                        <strong><?php echo htmlspecialchars($stats['last_run']['site']); ?></strong><br>
+                                        <small><?php echo $stats['last_run']['time']; ?></small>
+                                    </td>
+                                </tr>
+                                <?php endif; ?>
+                                <tr>
+                                    <td>Всего сайтов:</td>
+                                    <td><strong><?php echo count($sites); ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Активных сайтов:</td>
+                                    <td><strong><?php echo $activeCount; ?></strong></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-card">
+                            <h4 class="mb-3"><i class="fas fa-trophy me-2"></i>Топ сайтов</h4>
+                            <?php if (!empty($stats['sites'])): 
+                                // Сортируем по убыванию
+                                arsort($stats['sites']);
+                                $topSites = array_slice($stats['sites'], 0, 5, true);
+                            ?>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Сайт</th>
+                                            <th>Запусков</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1; ?>
+                                        <?php foreach ($topSites as $siteKey => $count): ?>
+                                        <tr>
+                                            <td><?php echo $i++; ?></td>
+                                            <td><?php echo htmlspecialchars($siteKey); ?></td>
+                                            <td><span class="badge bg-primary"><?php echo $count; ?></span></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else: ?>
+                                <p class="text-muted">Пока нет данных о запусках</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <h4 class="mb-3"><i class="fas fa-history me-2"></i>Детальная статистика по сайтам</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Сайт</th>
+                                    <th>Запусков</th>
+                                    <th>Статус</th>
+                                    <th>Действие</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($siteUrls as $key => $site): 
+                                    $runCount = isset($stats['sites'][$key]) ? $stats['sites'][$key] : 0;
+                                    $active = isSiteActive($site['url']);
+                                ?>
+                                <tr>
+                                    <td><strong><?php echo htmlspecialchars($key); ?></strong></td>
+                                    <td>
+                                        <span class="badge <?php echo $runCount > 0 ? 'bg-info' : 'bg-secondary'; ?>">
+                                            <?php echo $runCount; ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php if ($active): ?>
+                                            <span class="badge bg-success">Активен</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-danger">Неактивен</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="?run_site=1&key=<?php echo urlencode($key); ?>" 
+										   class="btn btn-sm btn-success" 
+										   target="_blank">
+											<i class="fas fa-play"></i>
+										</a>
+																			</td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             
             <!-- Edit Tab -->
@@ -722,11 +930,14 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                     <th>URL</th>
                                     <th>Описание</th>
                                     <th>Статус</th>
+                                    <th>Запуски</th>
                                     <th>Действия</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($siteUrls as $key => $site): ?>
+                                <?php foreach ($siteUrls as $key => $site): 
+                                    $runCount = isset($stats['sites'][$key]) ? $stats['sites'][$key] : 0;
+                                ?>
                                 <tr>
                                     <td><code><?php echo htmlspecialchars($key); ?></code></td>
                                     <td><small><?php echo htmlspecialchars($site['url']); ?></small></td>
@@ -741,6 +952,9 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                         <?php endif; ?>
                                     </td>
                                     <td>
+                                        <span class="badge bg-info"><?php echo $runCount; ?></span>
+                                    </td>
+                                    <td>
                                         <a href="?tab=edit&edit=<?php echo urlencode($key); ?>" class="btn btn-sm btn-warning action-btn" title="Редактировать">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -748,9 +962,12 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                                 onclick="confirmDelete('<?php echo htmlspecialchars($key); ?>')">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                        <a href="<?php echo htmlspecialchars($site['url']); ?>" target="_blank" class="btn btn-sm btn-success action-btn" title="Открыть">
-                                            <i class="fas fa-external-link-alt"></i>
-                                        </a>
+                                        <a href="?run_site=1&key=<?php echo urlencode($key); ?>" 
+										   class="btn btn-sm btn-success action-btn" 
+										   title="Запустить" 
+										   target="_blank">
+											<i class="fas fa-play"></i>
+										</a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -806,7 +1023,7 @@ if ($editKey && isset($siteUrls[$editKey])) {
             }
         }
         
-        // Автообновление каждые 30 секунд только на Главной
+        // Автообновление каждые 30 секунд только на главной
         <?php if (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard'): ?>
         setTimeout(function() { location.reload(); }, 30000);
         <?php endif; ?>
