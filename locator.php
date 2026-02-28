@@ -119,29 +119,19 @@ if (isset($_POST['save_sitelist']) && isset($_POST['content'])) {
     if (file_exists($filePath) && is_writable($filePath)) {
         try {
             if (file_put_contents($filePath, $content) !== false) {
-                $_SESSION['message'] = 'Файл успешно сохранен';
+                $_SESSION['message'] = '✅ Файл успешно сохранен';
                 $_SESSION['message_type'] = 'success';
-                
-                // Проверяем синтаксис PHP
-                $tempFile = tempnam(sys_get_temp_dir(), 'phpcheck');
-                file_put_contents($tempFile, $content);
-                exec('php -l ' . escapeshellarg($tempFile) . ' 2>&1', $output, $returnCode);
-                unlink($tempFile);
-                
-                if ($returnCode !== 0) {
-                    $_SESSION['message'] = 'Файл сохранен, но содержит ошибки PHP: ' . implode("\n", $output);
-                    $_SESSION['message_type'] = 'warning';
-                }
+
             } else {
-                $_SESSION['message'] = 'Ошибка при сохранении файла';
+                $_SESSION['message'] = '❌ Ошибка при сохранении файла';
                 $_SESSION['message_type'] = 'danger';
             }
         } catch (Exception $e) {
-            $_SESSION['message'] = 'Ошибка: ' . $e->getMessage();
+            $_SESSION['message'] = '❌ Ошибка: ' . $e->getMessage();
             $_SESSION['message_type'] = 'danger';
         }
     } else {
-        $_SESSION['message'] = 'Файл sitelist.php не найден или защищен от записи';
+        $_SESSION['message'] = '❌ Файл sitelist.php не найден или защищен от записи';
         $_SESSION['message_type'] = 'danger';
     }
     
@@ -402,15 +392,16 @@ $inactiveCount = count($sites) - $activeCount;
 </head>
 <body>
     <div class="container-fluid">
-        <!-- Сообщения -->
-        <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show alert-fixed" role="alert">
-                <i class="fas <?php echo $_SESSION['message_type'] == 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'; ?> me-2"></i>
-                <?php echo nl2br(htmlspecialchars($_SESSION['message'])); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <?php unset($_SESSION['message'], $_SESSION['message_type']); ?>
-        <?php endif; ?>
+<!-- Сообщения -->
+<?php if (isset($_SESSION['message'])): ?>
+    <div class="alert alert-<?php echo $_SESSION['message_type']; ?> alert-dismissible fade show alert-fixed" role="alert">
+        <i class="fas <?php echo $_SESSION['message_type'] == 'success' ? 'fa-check-circle' : 
+            ($_SESSION['message_type'] == 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'); ?> me-2"></i>
+        <?php echo $_SESSION['message']; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <?php unset($_SESSION['message'], $_SESSION['message_type']); ?>
+<?php endif; ?>
         
         <!-- Tabs -->
         <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
@@ -582,6 +573,17 @@ $siteUrls = array(
                 });
             });
         });
+		
+		// Добавьте в конец скрипта
+		setTimeout(() => {
+			const alerts = document.querySelectorAll('.alert');
+			alerts.forEach(alert => {
+				setTimeout(() => {
+					alert.style.opacity = '0';
+					setTimeout(() => alert.remove(), 300);
+				}, 5000);
+			});
+		}, 1000);
     </script>
 </body>
 </html>
