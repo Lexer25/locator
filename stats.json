@@ -1,0 +1,11 @@
+{
+    "total_runs": 2,
+    "sites": {
+        "crm2": 1,
+        "bas": 1
+    },
+    "last_run": {
+        "site": "bas",
+        "time": "2026-02-28 12:18:27"
+    }
+}
