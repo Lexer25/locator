@@ -626,27 +626,33 @@ if ($editKey && isset($siteUrls[$editKey])) {
             <?php unset($_SESSION['message'], $_SESSION['message_type']); ?>
         <?php endif; ?>
         
-        <!-- Tabs -->
-        <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'active' : ''; ?>" 
-                        id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
-                    <i class="fas fa-home me-2"></i>Главная
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'active' : ''; ?>" 
-                        id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
-                    <i class="fas fa-chart-bar me-2"></i>Статистика
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'edit') ? 'active' : ''; ?>" 
-                        id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
-                    <i class="fas fa-edit me-2"></i>Управление
-                </button>
-            </li>
-        </ul>
+       <!-- Tabs -->
+<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'active' : ''; ?>" 
+                id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
+            <i class="fas fa-home me-2"></i>Главная
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'active' : ''; ?>" 
+                id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
+            <i class="fas fa-chart-bar me-2"></i>Статистика
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'edit') ? 'active' : ''; ?>" 
+                id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
+            <i class="fas fa-edit me-2"></i>Управление
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+       <div class="tab-pane fade <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'docs') ? 'show active' : ''; ?>" 
+     id="docs" role="tabpanel">
+    <?php include 'docs-content.php'; ?>
+</div>
+    </li>
+</ul>
         
         <!-- Tab Content -->
         <div class="tab-content">
@@ -1055,5 +1061,6 @@ if ($editKey && isset($siteUrls[$editKey])) {
             }
         }, 5000);
     </script>
+	
 </body>
 </html>
