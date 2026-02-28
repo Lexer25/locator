@@ -3,9 +3,9 @@
 // locator.php - разместите в /xampp/htdocs/locator/locator.php
 // Версия для PHP 5.6 с счетчиком запусков
 // Version: 1.2.0
+// Last update: 2026-02-28
 
 date_default_timezone_set('Europe/Moscow');
-$version='1.2.0';
 session_start();
 
 // Файл для хранения статистики
@@ -626,71 +626,70 @@ if ($editKey && isset($siteUrls[$editKey])) {
             <?php unset($_SESSION['message'], $_SESSION['message_type']); ?>
         <?php endif; ?>
         
-       <!-- Tabs -->
-<ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'active' : ''; ?>" 
-                id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
-            <i class="fas fa-home me-2"></i>Главная
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'active' : ''; ?>" 
-                id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
-            <i class="fas fa-chart-bar me-2"></i>Статистика
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'edit') ? 'active' : ''; ?>" 
-                id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
-            <i class="fas fa-edit me-2"></i>Управление
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-       <div class="tab-pane fade <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'docs') ? 'show active' : ''; ?>" 
-     id="docs" role="tabpanel">
-    <?php include 'docs-content.php'; ?>
-</div>
-    </li>
-</ul>
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'active' : ''; ?>" 
+                        id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard" type="button" role="tab">
+                    <i class="fas fa-home me-2"></i>Главная
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'stats') ? 'active' : ''; ?>" 
+                        id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab">
+                    <i class="fas fa-chart-bar me-2"></i>Статистика
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'edit') ? 'active' : ''; ?>" 
+                        id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab">
+                    <i class="fas fa-edit me-2"></i>Управление
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'docs') ? 'active' : ''; ?>" 
+                        id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs" type="button" role="tab">
+                    <i class="fas fa-book me-2"></i>Документация
+                </button>
+            </li>
+        </ul>
         
         <!-- Tab Content -->
         <div class="tab-content">
             <!-- Главная Tab -->
             <div class="tab-pane fade <?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'dashboard') ? 'show active' : ''; ?>" 
                  id="dashboard" role="tabpanel">
-
-               <!-- Header -->
-					<div class="header-card d-flex flex-wrap align-items-center justify-content-between">
-						<div class="d-flex align-items-center gap-3">
-							<i class="fas fa-globe text-white fs-1"></i>
-							<div>
-								<div class="d-flex align-items-center gap-2">
-									<h1 class="text-white h3 mb-0">Панель управления сайтами</h1>
-									<span class="badge bg-warning text-dark px-3 py-2">v <?php echo $version;?></span>
-								</div>
-								<small class="text-white-50">Все проекты в одном месте</small>
-							</div>
-						</div>
-						
-						<div class="d-flex gap-2 flex-wrap">
-							<span class="stat-badge" style="background: #3498db;">
-								<i class="fas fa-globe me-1"></i> Всего: <?php echo count($sites); ?>
-							</span>
-							<span class="stat-badge" style="background: #27ae60;">
-								<i class="fas fa-check-circle me-1"></i> Активных: <?php echo $activeCount; ?>
-							</span>
-							<span class="stat-badge" style="background: #e67e22;">
-								<i class="fas fa-exclamation-circle me-1"></i> Неактивных: <?php echo $inactiveCount; ?>
-							</span>
-							<span class="stat-badge" style="background: #9b59b6;">
-								<i class="fas fa-chart-bar me-1"></i> Запусков: <?php echo isset($stats['total_runs']) ? $stats['total_runs'] : 0; ?>
-							</span>
-							<button class="btn btn-light" onclick="refreshStatus()">
-								<i class="fas fa-sync-alt me-1"></i> Обновить
-							</button>
-						</div>
-					</div>
+                <!-- Header -->
+                <div class="header-card d-flex flex-wrap align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="fas fa-globe text-white fs-1"></i>
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <h1 class="text-white h3 mb-0">Панель управления сайтами</h1>
+                                <span class="badge bg-warning text-dark px-3 py-2">v1.2.0</span>
+                            </div>
+                            <small class="text-white-50">Все проекты в одном месте</small>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-2 flex-wrap">
+                        <span class="stat-badge" style="background: #3498db;">
+                            <i class="fas fa-globe me-1"></i> Всего: <?php echo count($sites); ?>
+                        </span>
+                        <span class="stat-badge" style="background: #27ae60;">
+                            <i class="fas fa-check-circle me-1"></i> Активных: <?php echo $activeCount; ?>
+                        </span>
+                        <span class="stat-badge" style="background: #e67e22;">
+                            <i class="fas fa-exclamation-circle me-1"></i> Неактивных: <?php echo $inactiveCount; ?>
+                        </span>
+                        <span class="stat-badge" style="background: #9b59b6;">
+                            <i class="fas fa-chart-bar me-1"></i> Запусков: <?php echo isset($stats['total_runs']) ? $stats['total_runs'] : 0; ?>
+                        </span>
+                        <button class="btn btn-light" onclick="refreshStatus()">
+                            <i class="fas fa-sync-alt me-1"></i> Обновить
+                        </button>
+                    </div>
+                </div>
                 
                 <!-- Sites Grid -->
                 <div class="row g-3">
@@ -731,10 +730,10 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                         <?php endif; ?>
                                     </div>
                                     <a href="?run_site=1&key=<?php echo urlencode($site['name']); ?>" 
-									   class="btn btn-sm btn-success px-3" 
-									   target="_blank">
-										<i class="fas fa-play me-1"></i> Запустить
-									</a>
+                                       class="btn btn-sm btn-success px-3" 
+                                       target="_blank">
+                                        <i class="fas fa-play me-1"></i> Запустить
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -743,12 +742,11 @@ if ($editKey && isset($siteUrls[$editKey])) {
                 </div>
                 
                 <!-- Footer -->
-                <!-- Footer -->
-<div class="text-center mt-4 text-white-50 small">
-    <i class="fas fa-clock me-1"></i> <?php echo date('Y-m-d H:i:s'); ?> 
-    
-    | <a href="http://www.artonit.ru" target="_blank" class="text-white-50">www.artonit.ru</a>
-</div>
+                <div class="text-center mt-4 text-white-50 small">
+                    <i class="fas fa-clock me-1"></i> Последнее обновление: <?php echo date('Y-m-d H:i:s'); ?>
+                    | <i class="fas fa-code-branch me-1"></i> версия 1.2.0
+                    | <a href="http://www.artonit.ru" target="_blank" class="text-white-50">www.artonit.ru</a>
+                </div>
             </div>
             
             <!-- Stats Tab -->
@@ -852,11 +850,11 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                     </td>
                                     <td>
                                         <a href="?run_site=1&key=<?php echo urlencode($key); ?>" 
-										   class="btn btn-sm btn-success" 
-										   target="_blank">
-											<i class="fas fa-play"></i>
-										</a>
-																			</td>
+                                           class="btn btn-sm btn-success"
+                                           target="_blank">
+                                            <i class="fas fa-play"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -969,11 +967,11 @@ if ($editKey && isset($siteUrls[$editKey])) {
                                             <i class="fas fa-trash"></i>
                                         </button>
                                         <a href="?run_site=1&key=<?php echo urlencode($key); ?>" 
-										   class="btn btn-sm btn-success action-btn" 
-										   title="Запустить" 
-										   target="_blank">
-											<i class="fas fa-play"></i>
-										</a>
+                                           class="btn btn-sm btn-success action-btn" 
+                                           title="Запустить"
+                                           target="_blank">
+                                            <i class="fas fa-play"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -1003,6 +1001,12 @@ if ($editKey && isset($siteUrls[$editKey])) {
                         </form>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Docs Tab -->
+            <div class="tab-pane fade <?php echo (isset($_GET['tab']) && $_GET['tab'] == 'docs') ? 'show active' : ''; ?>" 
+                 id="docs" role="tabpanel">
+                <?php include 'docs-content.php'; ?>
             </div>
         </div>
     </div>
@@ -1061,6 +1065,5 @@ if ($editKey && isset($siteUrls[$editKey])) {
             }
         }, 5000);
     </script>
-	
 </body>
 </html>

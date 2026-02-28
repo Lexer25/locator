@@ -1,335 +1,288 @@
 <?php
-// docs-content.php - только содержимое документации (без HTML)
+// docs-content.php - Техническая документация
 ?>
 <div class="row">
-    <div class="col-md-8 mx-auto">
-        <!-- Карточка с описанием проекта -->
+    <div class="col-md-10 mx-auto">
+        <!-- Технический заголовок -->
         <div class="form-card">
-            <h3 class="mb-4"><i class="fas fa-info-circle text-primary me-2"></i>О проекте</h3>
-            <p class="lead mb-4">
-                Панель управления сайтами - это удобный инструмент для мониторинга и управления веб-проектами.
-            </p>
-            
-            <div class="alert alert-info">
-                <i class="fas fa-code-branch me-2"></i>
-                <strong>Версия:</strong> 1.2.0 |
-                <i class="fas fa-calendar ms-3 me-1"></i> 2026 |
-                <i class="fas fa-globe ms-3 me-1"></i> <a href="http://www.artonit.ru" target="_blank">www.artonit.ru</a>
+            <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-code-branch fs-1 text-primary me-3"></i>
+                <div>
+                    <h3 class="mb-1">Техническая документация</h3>
+                    <p class="text-muted mb-0">Панель управления сайтами v1.2.0 | &copy; 2026 ArtonIT</p>
+                </div>
             </div>
-        </div>
-        
-        <!-- Структура проекта -->
-        <div class="form-card">
-            <h4 class="mb-3"><i class="fas fa-sitemap text-primary me-2"></i>Структура проекта</h4>
-            
-            <div class="alert alert-secondary">
-                <i class="fas fa-folder-open me-2"></i>
-                <strong>Корневая папка:</strong> C:\xampp\htdocs\locator\
-            </div>
-            
-            <div class="tree-view">
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <i class="fas fa-file-code text-primary me-2"></i>
-                        <code>locator.php</code> - 
-                        <small class="text-muted">Главный файл панели управления</small>
-                    </li>
-                    <li class="mb-2 ms-3">
-                        <i class="fas fa-file-code text-success me-2"></i>
-                        <code>docs-content.php</code> - 
-                        <small class="text-muted">Содержимое документации</small>
-                    </li>
-                    <li class="mb-2 ms-3">
-                        <i class="fas fa-file-code text-warning me-2"></i>
-                        <code>sitelist.php</code> - 
-                        <small class="text-muted">Список сайтов (генерируется автоматически)</small>
-                    </li>
-                    <li class="mb-2 ms-3">
-                        <i class="fas fa-file-code text-info me-2"></i>
-                        <code>stats.json</code> - 
-                        <small class="text-muted">Статистика запусков (создается автоматически)</small>
-                    </li>
-                    <li class="mb-2 ms-3">
-                        <i class="fas fa-file-code text-secondary me-2"></i>
-                        <code>favicon.ico</code> - 
-                        <small class="text-muted">Иконка сайта</small>
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-folder text-danger me-2"></i>
-                        <code>bootstrap-5.3.8-dist/</code> - 
-                        <small class="text-muted">Локальные файлы Bootstrap</small>
-                    </li>
-                    <li class="mb-2 ms-4">
-                        <i class="fas fa-folder-open text-danger me-2"></i>
-                        <code>css/</code> - 
-                        <small class="text-muted">Папка со стилями</small>
-                    </li>
-                    <li class="mb-2 ms-5">
-                        <i class="fas fa-file text-danger me-2"></i>
-                        <code>bootstrap.min.css</code> - 
-                        <small class="text-muted">Основной файл стилей</small>
-                    </li>
-                    <li class="mb-2 ms-5">
-                        <i class="fas fa-file text-danger me-2"></i>
-                        <code>all.min.css</code> - 
-                        <small class="text-muted">Стили для иконок Font Awesome</small>
-                    </li>
-                    <li class="mb-2 ms-4">
-                        <i class="fas fa-folder-open text-danger me-2"></i>
-                        <code>js/</code> - 
-                        <small class="text-muted">Папка со скриптами</small>
-                    </li>
-                    <li class="mb-2 ms-5">
-                        <i class="fas fa-file text-danger me-2"></i>
-                        <code>bootstrap.bundle.min.js</code> - 
-                        <small class="text-muted">JavaScript файл Bootstrap</small>
-                    </li>
-                </ul>
+            <hr>
+            <div class="row text-center">
+                <div class="col">
+                    <small class="text-muted">Последнее обновление: 28.02.2026</small>
+                </div>
             </div>
         </div>
 
-        <!-- Детальное описание файлов -->
+        <!-- 1. Назначение системы -->
         <div class="form-card">
-            <h4 class="mb-3"><i class="fas fa-file-alt text-success me-2"></i>Детальное описание файлов</h4>
-            
-            <div class="accordion" id="fileAccordion">
-                <!-- locator.php -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#file1">
-                            <code class="me-2">locator.php</code> 
-                            <span class="badge bg-danger ms-2">Основной файл</span>
-                        </button>
-                    </h2>
-                    <div id="file1" class="accordion-collapse collapse show" data-bs-parent="#fileAccordion">
-                        <div class="accordion-body">
-                            <p><strong>Назначение:</strong> Главный исполняемый файл панели управления.</p>
-                            <p><strong>Содержит:</strong></p>
-                            <ul>
-                                <li>Логику проверки доступности сайтов</li>
-                                <li>Обработку форм добавления/редактирования</li>
-                                <li>Систему статистики</li>
-                                <li>Веб-интерфейс (HTML + Bootstrap)</li>
-                                <li>JavaScript для автообновления</li>
-                            </ul>
-                            <p><strong>Важно:</strong> Не редактировать без необходимости!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- docs-content.php -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file2">
-                            <code class="me-2">docs-content.php</code>
-                            <span class="badge bg-info ms-2">Документация</span>
-                        </button>
-                    </h2>
-                    <div id="file2" class="accordion-collapse collapse" data-bs-parent="#fileAccordion">
-                        <div class="accordion-body">
-                            <p><strong>Назначение:</strong> Содержит текст документации.</p>
-                            <p><strong>Содержит:</strong></p>
-                            <ul>
-                                <li>Описание проекта</li>
-                                <li>Структуру файлов</li>
-                                <li>Инструкции по использованию</li>
-                                <li>Системные требования</li>
-                            </ul>
-                            <p><strong>Можно редактировать</strong> - это просто текст!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- sitelist.php -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file3">
-                            <code class="me-2">sitelist.php</code>
-                            <span class="badge bg-warning text-dark ms-2">Конфигурация</span>
-                        </button>
-                    </h2>
-                    <div id="file3" class="accordion-collapse collapse" data-bs-parent="#fileAccordion">
-                        <div class="accordion-body">
-                            <p><strong>Назначение:</strong> Хранит список всех сайтов.</p>
-                            <p><strong>Формат:</strong></p>
-                            <pre class="bg-light p-2 rounded"><code>$siteUrls = array(
-    'ключ' => array(
-        'url' => 'http://адрес:порт/путь',
-        'desc' => 'Описание сайта',
-    ),
-);</code></pre>
-                            <p><strong>Редактирование:</strong> Через вкладку "Управление" в интерфейсе.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- stats.json -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file4">
-                            <code class="me-2">stats.json</code>
-                            <span class="badge bg-secondary ms-2">Статистика</span>
-                        </button>
-                    </h2>
-                    <div id="file4" class="accordion-collapse collapse" data-bs-parent="#fileAccordion">
-                        <div class="accordion-body">
-                            <p><strong>Назначение:</strong> Хранит статистику запусков сайтов.</p>
-                            <p><strong>Содержит:</strong></p>
-                            <ul>
-                                <li>Общее количество запусков</li>
-                                <li>Счетчики по каждому сайту</li>
-                                <li>Время последнего запуска</li>
-                            </ul>
-                            <p><strong>Создается автоматически</strong> при первом запуске.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- bootstrap папка -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file5">
-                            <code class="me-2">bootstrap-5.3.8-dist/</code>
-                            <span class="badge bg-primary ms-2">Стили</span>
-                        </button>
-                    </h2>
-                    <div id="file5" class="accordion-collapse collapse" data-bs-parent="#fileAccordion">
-                        <div class="accordion-body">
-                            <p><strong>Назначение:</strong> Локальные файлы Bootstrap для оформления.</p>
-                            <p><strong>Структура:</strong></p>
-                            <ul>
-                                <li><code>css/bootstrap.min.css</code> - основные стили</li>
-                                <li><code>css/all.min.css</code> - стили для иконок</li>
-                                <li><code>js/bootstrap.bundle.min.js</code> - скрипты Bootstrap</li>
-                            </ul>
-                            <p><strong>Не требуется редактировать</strong> - используются как есть.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Инструкция по использованию -->
-        <div class="form-card">
-            <h4 class="mb-3"><i class="fas fa-book-open text-warning me-2"></i>Как пользоваться</h4>
-            
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card h-100 border-0 bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-home text-primary me-2"></i>
-                                Главная
-                            </h5>
-                            <p class="card-text small">
-                                Отображает все сайты в виде карточек. 
-                                Виден статус (активен/неактивен), описание и URL.
-                                Кнопка "Запустить" открывает сайт в новой вкладке.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card h-100 border-0 bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-chart-bar text-success me-2"></i>
-                                Статистика
-                            </h5>
-                            <p class="card-text small">
-                                Показывает общую статистику запусков, 
-                                топ популярных сайтов и детальную информацию 
-                                по каждому проекту.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card h-100 border-0 bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-edit text-warning me-2"></i>
-                                Управление
-                            </h5>
-                            <p class="card-text small">
-                                Позволяет добавлять, редактировать и удалять сайты.
-                                Все изменения сохраняются в файл sitelist.php.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-                    <div class="card h-100 border-0 bg-light">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="fas fa-sync-alt text-info me-2"></i>
-                                Автообновление
-                            </h5>
-                            <p class="card-text small">
-                                Статус сайтов автоматически обновляется каждые 30 секунд.
-                                Также доступна ручная кнопка "Обновить".
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Системные требования -->
-        <div class="form-card">
-            <h4 class="mb-3"><i class="fas fa-cog text-secondary me-2"></i>Системные требования</h4>
-            
-            <ul class="list-group">
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-3"></i>
-                    <span><strong>PHP</strong> версии 5.6 или выше</span>
-                </li>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-3"></i>
-                    <span><strong>Apache</strong> (XAMPP, OpenServer, и т.д.)</span>
-                </li>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-3"></i>
-                    <span><strong>cURL</strong> для проверки доступности сайтов</span>
-                </li>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-3"></i>
-                    <span><strong>Права на запись</strong> в папку locator</span>
-                </li>
-                <li class="list-group-item d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-3"></i>
-                    <span><strong>Современный браузер</strong> (Chrome, Firefox, Edge)</span>
-                </li>
+            <h4 class="mb-3"><i class="fas fa-bullseye text-primary me-2"></i>1. Назначение системы</h4>
+            <p>Панель управления сайтами предназначена для централизованного мониторинга и администрирования веб-проектов. Система обеспечивает:</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Контроль доступности HTTP-сервисов</li>
+                <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Учет статистики запусков</li>
+                <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Управление конфигурацией проектов</li>
+                <li class="list-group-item bg-transparent"><i class="fas fa-check text-success me-2"></i>Визуализацию состояния сервисов</li>
             </ul>
         </div>
-        
-        <!-- Информация о разработчике -->
-        <div class="form-card text-center">
-            <h4 class="mb-3"><i class="fas  text-danger me-2"></i>О разработчике</h4>
-            <p>
-                Разработано специально для удобного управления сайтами.
-                <br>
-                По вопросам и предложениям:
-            </p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="http://www.artonit.ru" target="_blank" class="btn btn-outline-primary">
-                    <i class="fas fa-globe me-2"></i>www.artonit.ru
-                </a>
+
+        <!-- 2. Системные требования -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-microchip text-primary me-2"></i>2. Системные требования</h4>
+            
+            <table class="table table-bordered">
+                <tr>
+                    <th style="width: 200px;">Компонент</th>
+                    <th>Требование</th>
+                    <th>Примечание</th>
+                </tr>
+                <tr>
+                    <td>Веб-сервер</td>
+                    <td>Apache 2.4+</td>
+                    <td>XAMPP, OpenServer, Denwer</td>
+                </tr>
+                <tr>
+                    <td>PHP</td>
+                    <td>Версия 5.6 - 8.x</td>
+                    <td>Требуется модуль cURL</td>
+                </tr>
+                <tr>
+                    <td>Файловая система</td>
+                    <td>Права на запись</td>
+                    <td>Для папки /locator/</td>
+                </tr>
+                <tr>
+                    <td>Браузер</td>
+                    <td>Chrome 90+, Firefox 88+, Edge 90+</td>
+                    <td>Требуется JavaScript</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 3. Структура файлов -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-folder-tree text-primary me-2"></i>3. Структура файлов</h4>
+            
+            <div class="bg-light p-3 rounded mb-3">
+                <pre class="mb-0"><code>C:\xampp\htdocs\
+├── index.php                    # Редирект на /locator/locator.php
+│
+└── locator\                     # Корневая директория проекта
+    ├── locator.php              # Основной исполняемый модуль
+    ├── docs-content.php         # Модуль документации
+    ├── sitelist.php             # Конфигурация сайтов
+    ├── stats.json               # База данных статистики
+    ├── favicon.ico              # Графический ресурс
+    │
+    └── bootstrap-5.3.8-dist\    # Фреймворк Bootstrap
+        ├── css\                  # Таблицы стилей
+        └── js\                    # JavaScript-модули</code></pre>
             </div>
-            <div class="mt-3 small text-muted">
-                <i class="fas fa-code-branch me-1"></i> версия 1.2.0 | 
-                <i class="fas fa-calendar me-1"></i> 2026
+
+            <h5 class="mt-4 mb-3">Спецификация файлов:</h5>
+            
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Файл</th>
+                        <th>Тип</th>
+                        <th>Назначение</th>
+                        <th>Права доступа</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>locator.php</code></td>
+                        <td>Исполняемый</td>
+                        <td>Основной контроллер приложения</td>
+                        <td>644 (чтение)</td>
+                    </tr>
+                    <tr>
+                        <td><code>docs-content.php</code></td>
+                        <td>Документация</td>
+                        <td>Содержимое раздела документации</td>
+                        <td>644 (чтение)</td>
+                    </tr>
+                    <tr>
+                        <td><code>sitelist.php</code></td>
+                        <td>Конфигурация</td>
+                        <td>Хранение массива сайтов</td>
+                        <td>666 (чтение/запись)</td>
+                    </tr>
+                    <tr>
+                        <td><code>stats.json</code></td>
+                        <td>Данные</td>
+                        <td>Хранение статистики в JSON</td>
+                        <td>666 (чтение/запись)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Конфигурация сайтов -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-cogs text-primary me-2"></i>4. Конфигурация сайтов</h4>
+            
+            <p>Файл <code>sitelist.php</code> содержит массив следующей структуры:</p>
+            
+            <div class="bg-dark text-white p-3 rounded mb-3">
+                <pre class="mb-0"><code>&lt;?php
+$siteUrls = array(
+    'идентификатор_1' => array(
+        'url' => 'http://domain.com:port/path',
+        'desc' => 'Описание проекта'
+    ),
+    'идентификатор_2' => array(
+        'url' => 'http://domain2.com:port/path',
+        'desc' => 'Описание проекта'
+    )
+);
+?&gt;</code></pre>
+            </div>
+            
+            <p><strong>Параметры:</strong></p>
+            <ul>
+                <li><code>идентификатор</code> - уникальный ключ (только латиница, цифры, _)</li>
+                <li><code>url</code> - полный URL для проверки и запуска</li>
+                <li><code>desc</code> - текстовое описание проекта</li>
+            </ul>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Рекомендация:</strong> Используйте вкладку "Управление" для редактирования. Прямое редактирование файла может привести к синтаксическим ошибкам.
             </div>
         </div>
-        
-        <!-- Подсказка -->
-        <div class="alert alert-warning mt-4">
-            <i class="fas fa-lightbulb me-2"></i>
-            <strong>Совет:</strong> Для прямого редактирования файлов используйте вкладку "Управление" -> 
-            раздел "Прямое редактирование файла" (для экспертов).
+
+        <!-- 5. API и методы -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-plug text-primary me-2"></i>5. Методы взаимодействия</h4>
+            
+            <h6 class="mb-2">Параметры GET-запросов:</h6>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Параметр</th>
+                    <th>Описание</th>
+                    <th>Пример</th>
+                </tr>
+                <tr>
+                    <td><code>tab</code></td>
+                    <td>Выбор вкладки интерфейса</td>
+                    <td><code>?tab=dashboard|stats|edit|docs</code></td>
+                </tr>
+                <tr>
+                    <td><code>run_site</code></td>
+                    <td>Запуск сайта с подсчетом статистики</td>
+                    <td><code>?run_site=1&key=cch</code></td>
+                </tr>
+                <tr>
+                    <td><code>edit</code></td>
+                    <td>Редактирование конкретного сайта</td>
+                    <td><code>?tab=edit&edit=cch</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 6. Система статистики -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-chart-bar text-primary me-2"></i>6. Система статистики</h4>
+            
+            <p>Статистика сохраняется в файл <code>stats.json</code> в формате:</p>
+            
+            <div class="bg-dark text-white p-3 rounded mb-3">
+                <pre class="mb-0"><code>{
+    "total_runs": 42,
+    "sites": {
+        "cch": 15,
+        "crm2": 12,
+        "bas": 8,
+        "cvs": 7
+    },
+    "last_run": {
+        "site": "cch",
+        "time": "2026-02-28 15:30:00"
+    }
+}</code></pre>
+            </div>
+            
+            <p><strong>Поля:</strong></p>
+            <ul>
+                <li><code>total_runs</code> - общее количество запусков</li>
+                <li><code>sites</code> - счетчики по каждому сайту</li>
+                <li><code>last_run</code> - информация о последнем запуске</li>
+            </ul>
+        </div>
+
+        <!-- 7. Диагностика -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-primary me-2"></i>7. Диагностика неисправностей</h4>
+            
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Симптом</th>
+                        <th>Причина</th>
+                        <th>Решение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Пустая страница</td>
+                        <td>Ошибка PHP</td>
+                        <td>Проверить error_log, включить display_errors</td>
+                    </tr>
+                    <tr>
+                        <td>Не сохраняются сайты</td>
+                        <td>Нет прав на запись</td>
+                        <td>Выдать права 666 на sitelist.php</td>
+                    </tr>
+                    <tr>
+                        <td>Все сайты неактивны</td>
+                        <td>cURL не работает</td>
+                        <td>Проверить включение php_curl.dll</td>
+                    </tr>
+                    <tr>
+                        <td>Статистика не обновляется</td>
+                        <td>Нет прав на stats.json</td>
+                        <td>Создать файл с правами 666</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 8. Обновление и поддержка -->
+        <div class="form-card">
+            <h4 class="mb-3"><i class="fas fa-sync-alt text-primary me-2"></i>8. Обновление и поддержка</h4>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Процедура обновления:</h6>
+                    <ol>
+                        <li>Создать резервную копию папки /locator/</li>
+                        <li>Загрузить новые файлы</li>
+                        <li>Сохранить существующий sitelist.php</li>
+                        <li>Проверить работоспособность</li>
+                    </ol>
+                </div>
+                <div class="col-md-6">
+                    <h6>Контакты разработчика:</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-globe me-2"></i> www.artonit.ru</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr>
+            <div class="text-muted small">
+                <i class="fas fa-code-branch me-1"></i> Версия: 1.2.0 | 
+                <i class="fas fa-calendar-alt me-1"></i> Дата релиза: 28.02.2026 |
+                <i class="fas fa-database me-1"></i> Стабильный релиз
+            </div>
         </div>
     </div>
 </div>
