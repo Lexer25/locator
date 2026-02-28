@@ -1,6 +1,6 @@
 <?php
 //14.01.2026 Панель управления сайтами
-// index.php - разместите в /xampp/htdocs/index.php
+// locator.php - разместите в /xampp/htdocs/locator/locator.php
 
 session_start();
 
