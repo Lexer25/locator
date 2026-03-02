@@ -325,48 +325,22 @@ function validateSiteList($sites) {
     return $errors;
 }
 
-// Функция для создания файла sitelist.php
+// Функция для создания файла sitelist.php путём копирования из шаблона
 function createSiteListFile() {
-    $content = '<?php
-// Массив сайтов с описаниями
-$siteUrls = array(
-    \'city\' => array(
-        \'url\' => \'https://127.0.0.1/city\',
-        \'desc\' => \'Панель управления СКУД Артонит\',
-    ),
-    \'cch\' => array(
-        \'url\' => \'https://127.0.0.1/cch\',
-        \'desc\' => \'Панель отладки интеграции Perco\',
-    ),
-    \'crm2\' => array(
-        \'url\' => \'https://127.0.0.1/crm2\',
-        \'desc\' => \'Управление контактами СКУД Артонит\',
-    ),
-    \'bas\' => array(
-        \'url\' => \'https://127.0.0.1/bas\',
-        \'desc\' => \'Панель управления bas-ip\',
-    ),
-    \'cvs\' => array(
-        \'url\' => \'https://127.0.0.1/cvs\',
-        \'desc\' => \'Модул интеграции с системой распознавания ГРЗ\',
-    ),
-    \'parkresident\' => array(
-        \'url\' => \'https://127.0.0.1/parkresident\',
-        \'desc\' => \'Парковочный комплекс ПаркРезидент\',
-    ),
-);
-?>';
+    $defaultFile = __DIR__ . '/sitelist_default.php';
+    $targetFile = __DIR__ . '/sitelist.php';
     
-    $filePath = __DIR__ . '/sitelist.php';
+    // Проверяем наличие файла-шаблона
+    if (!file_exists($defaultFile)) {
+        return false; // шаблон не найден – копирование невозможно
+    }
     
+    // Копируем файл
     try {
-        if (file_put_contents($filePath, $content) !== false) {
-            return true;
-        }
+        return copy($defaultFile, $targetFile);
     } catch (Exception $e) {
         return false;
     }
-    return false;
 }
 
 // Проверяем, была ли нажата кнопка создания файла

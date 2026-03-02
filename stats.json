@@ -1,10 +1,12 @@
 {
-    "total_runs": 1,
+    "total_runs": 3,
     "sites": {
-        "city": 1
+        "city": 1,
+        "crm2": 1,
+        "cvs": 1
     },
     "last_run": {
-        "site": "city",
-        "time": "2026-03-02 15:32:24"
+        "site": "cvs",
+        "time": "2026-03-02 17:44:51"
     }
 }

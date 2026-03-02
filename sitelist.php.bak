@@ -7,7 +7,7 @@ $siteUrls = array(
     ),
     'cch' => array(
         'url' => 'https://127.0.0.1/cch',
-        'desc' => 'Панель отладки интеграции Парсек',
+        'desc' => 'Панель отладки интеграции Perco',
     ),
     'crm2' => array(
         'url' => 'https://127.0.0.1/crm2',
